@@ -10,7 +10,8 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component
 {
-    public string $name = '';
+    public string $userid = '';
+    public string $nickname = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
@@ -21,9 +22,10 @@ new #[Layout('layouts.guest')] class extends Component
     public function register(): void
     {
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'userid' => ['required', 'string', 'min:4', 'max:15', 'regex:/^[a-z0-9-]+$/', 'unique:users,userid'],
+            'nickname' => ['required', 'string', 'max:24', 'unique:users,nickname'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'min:7', 'max:50', 'unique:'.User::class],
+            'password' => ['required', 'min:8', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -38,17 +40,24 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="register">
-        <!-- Name -->
+        <!-- Userid -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="userid" :value="__('Userid')" />
+            <x-text-input wire:model="userid" id="userid" class="block mt-1 w-full" type="text" name="userid" required autofocus autocomplete="on" />
+            <x-input-error :messages="$errors->get('userid')" class="mt-2" />
+        </div>
+
+        <!-- Nickname -->
+        <div class="mt-4">
+            <x-input-label for="nickname" :value="__('Nickname')" />
+            <x-text-input wire:model="nickname" id="nickname" class="block mt-1 w-full" type="text" name="nickname" required autocomplete="off" />
+            <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -59,7 +68,7 @@ new #[Layout('layouts.guest')] class extends Component
             <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
-                            required autocomplete="new-password" />
+                            required autocomplete="off" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -70,7 +79,7 @@ new #[Layout('layouts.guest')] class extends Component
 
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
                             type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                            name="password_confirmation" required autocomplete="off" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
