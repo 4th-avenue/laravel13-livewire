@@ -50,7 +50,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Nickname -->
         <div class="mt-4">
             <x-input-label for="nickname" :value="__('Nickname')" />
-            <x-text-input wire:model="nickname" id="nickname" class="block mt-1 w-full" type="text" name="nickname" required autocomplete="off" />
+            <x-text-input wire:model="nickname" id="nickname" class="block mt-1 w-full" type="text" name="nickname" required autocomplete="off" spellcheck="false" />
             <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
         </div>
 
