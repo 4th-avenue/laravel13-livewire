@@ -23,7 +23,7 @@ new class extends Component
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
+                    <a href="{{ route('/') }}" wire:navigate>
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
@@ -57,9 +57,28 @@ new class extends Component
                         </x-slot>
 
                         <x-slot name="content">
+                            <!-- Account Management -->
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Manage Account') }}
+                            </div>
+
                             <x-dropdown-link :href="route('profile')" wire:navigate>
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+
+                            @role('admin')
+                                <div class="border-t border-gray-200 dark:border-gray-400"></div>
+
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    {{ __('Manage Site') }}
+                                </div>
+
+                                <x-dropdown-link href="/admin">
+                                    {{ __('Admin Panel') }}
+                                </x-dropdown-link>
+                            @endrole
+
+                            <div class="border-t border-gray-200 dark:border-gray-400"></div>
 
                             <!-- Authentication -->
                             <button wire:click="logout" class="w-full text-start">
@@ -103,6 +122,12 @@ new class extends Component
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                @role('admin')
+                    <x-responsive-nav-link href="/admin">
+                        {{ __('Admin Panel') }}
+                    </x-responsive-nav-link>
+                @endrole
 
                 <div class="flex items-center justify-between w-full">
                     <!-- Authentication -->
