@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -30,6 +31,17 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->userMenuItems([
+                [
+                    Action::make('exit_admin')
+                        ->label('관리자 패널 나가기')
+                        ->url('/')
+                        ->icon('heroicon-o-home-modern'),
+                ],
+                [
+                    'logout' => fn (Action $action): Action => $action,
+                ],
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -54,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->resourceEditPageRedirect('index');
+            ->resourceEditPageRedirect('index')
+            ->spa();
     }
 }
