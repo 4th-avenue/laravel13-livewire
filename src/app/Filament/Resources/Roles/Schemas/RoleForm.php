@@ -12,7 +12,7 @@ class RoleForm
     {
         return $schema
             ->components([
-                Section::make('Permission')
+                Section::make('Role')
                     ->schema([
                         TextInput::make('name')
                             ->minLength(2)

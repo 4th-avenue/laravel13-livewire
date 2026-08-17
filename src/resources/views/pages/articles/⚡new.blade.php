@@ -25,6 +25,11 @@ new class extends Component
                             <x-input-label for="category_id" :value="__('Category')" />
                             <select id="category_id" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full mt-1 p-2.5" name="category_id" required>
                                 <option>{{ __('Select a category.') }}</option>
+                                @foreach (\App\Models\Category::all() as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
