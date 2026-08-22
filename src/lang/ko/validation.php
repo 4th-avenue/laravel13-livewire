@@ -161,5 +161,7 @@ return [
         'userid' => '아이디',
         'nickname' => '닉네임',
         'password' => '비밀번호',
+        'title' => '제목',
+        'body' => '본문',
     ],
 ];

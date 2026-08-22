@@ -1,12 +1,16 @@
 <?php
 
 use App\Models\Category;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new class extends Component
 {
+    #[Validate('required|exists:categories,id')]
     public $category_id;
+    #[Validate('required|string|max:60')]
     public $title;
+    #[Validate('required|string|max:21844')]
     public $body;
 
     public $childCategories = [];
@@ -20,9 +24,9 @@ new class extends Component
 
     public function save()
     {
-        auth()->user()->articles()->create(
-            $this->only(['category_id', 'title', 'body'])
-        );
+        $validated = $this->validate();
+
+        auth()->user()->articles()->create($validated);
 
         $this->reset();
     }
