@@ -48,14 +48,14 @@ new class extends Component
                         <!-- Category -->
                         <div>
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <select wire:model="category_id" id="category_id" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full mt-1 p-2.5" name="category_id" required>
+                            <x-select wire:model="category_id" id="category_id" class="block mt-1 w-full" name="category_id" required>
                                 <option>{{ __('Select a category.') }}</option>
                                 @foreach ($childCategories as $id => $name)
                                     <option value="{{ $id }}">
                                         {{ $name }}
                                     </option>
                                 @endforeach
-                            </select>
+                            </x-select>
                             <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
 
@@ -69,7 +69,7 @@ new class extends Component
                         <!-- Body -->
                         <div>
                             <x-input-label for="body" :value="__('Body')" />
-                            <textarea wire:model="body" id="body" rows="4" class="block mt-1 p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500" name="body" required autocomplete="off"></textarea>
+                            <x-textarea wire:model="body" id="body" rows="9" class="block mt-1 w-full" name="body" required autocomplete="off"></x-textarea>
                             <x-input-error :messages="$errors->get('body')" class="mt-2" />
                         </div>
 
