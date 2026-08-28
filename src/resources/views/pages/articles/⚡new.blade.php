@@ -28,7 +28,7 @@ new class extends Component
 
         auth()->user()->articles()->create($validated);
 
-        $this->reset();
+        return $this->redirectRoute('articles.index', navigate: true);
     }
 };
 ?>
