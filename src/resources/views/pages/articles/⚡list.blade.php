@@ -9,7 +9,8 @@ new class extends Component
     #[Computed]
     public function articles()
     {
-        return Article::select('id', 'title', 'user_id', 'created_at')
+        return Article::with('user:id,nickname')
+            ->select('id', 'title', 'user_id', 'created_at')
             ->latest()
             ->get();
     }
