@@ -1,10 +1,18 @@
 <?php
 
+use App\Models\Article;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
 {
-    //
+    #[Computed]
+    public function articles()
+    {
+        return Article::select('id', 'title', 'user_id', 'created_at')
+            ->latest()
+            ->get();
+    }
 };
 ?>
 
@@ -24,7 +32,14 @@ new class extends Component
                             {{ __('Create') }}
                         </a>
                     </div>
-                    Nothing worth having comes easy. - Theodore Roosevelt
+
+                    @foreach($this->articles as $article)
+                        <div class="border rounded-md my-3 p-3">
+                            <p>제목: {{$article->title}}</p>
+                            <p>작성자: {{$article->user->nickname}}</p>
+                            <p>{{$article->created_at}}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
