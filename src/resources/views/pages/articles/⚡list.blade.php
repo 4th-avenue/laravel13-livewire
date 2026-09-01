@@ -3,16 +3,19 @@
 use App\Models\Article;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
+    use WithPagination;
+
     #[Computed]
     public function articles()
     {
         return Article::with('user:id,nickname')
             ->select('id', 'title', 'user_id', 'created_at')
             ->latest()
-            ->get();
+            ->paginate(3);
     }
 };
 ?>
@@ -41,6 +44,9 @@ new class extends Component
                             <p>{{$article->created_at}}</p>
                         </div>
                     @endforeach
+                    <div>
+                        {{ $this->articles->links() }}
+                    </div>
                 </div>
             </div>
         </div>
