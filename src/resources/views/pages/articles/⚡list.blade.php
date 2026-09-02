@@ -12,10 +12,16 @@ new class extends Component
     #[Computed]
     public function articles()
     {
-        return Article::with('user:id,nickname')
+        $articles = Article::with('user:id,nickname')
             ->select('id', 'title', 'user_id', 'created_at')
             ->latest()
             ->paginate(3);
+
+        if ($articles->currentPage() > 1 && $articles->isEmpty()) {
+            abort(404);
+        }
+
+        return $articles;
     }
 };
 ?>
