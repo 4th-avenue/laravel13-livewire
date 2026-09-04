@@ -44,6 +44,7 @@ new class extends Component
                     <x-darkmode-button />
                 </div>
 
+                @auth
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -92,6 +93,16 @@ new class extends Component
                         </x-slot>
                     </x-dropdown>
                 </div>
+                @else
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('login')">
+                        {{ __('Log in') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-nav-link>
+                </div>
+                @endauth
 
                 <!-- Hamburger -->
                 <div class="-me-2 flex items-center sm:hidden">
@@ -119,6 +130,7 @@ new class extends Component
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            @auth
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->nickname]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
@@ -144,6 +156,16 @@ new class extends Component
                     </button>
                 </div>
             </div>
+            @else
+            <div class="space-y-1">
+                <x-responsive-nav-link :href="route('login')">
+                    {{ __('Log in') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')">
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
+            </div>
+            @endauth
         </div>
     </div>
 </nav>
