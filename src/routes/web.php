@@ -16,5 +16,7 @@ Route::middleware('auth')->group(function () {
 
 Route::livewire('articles', 'pages::articles.list')
     ->name('articles.index');
+Route::livewire('articles/{article:id}', 'pages::articles.show')
+    ->name('articles.show');
 
 require __DIR__.'/auth.php';
