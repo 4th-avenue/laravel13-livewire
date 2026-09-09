@@ -26,7 +26,9 @@ new class extends Component
     {
         $validated = $this->validate();
 
-        auth()->user()->articles()->create($validated);
+        auth()->user()->articles()->create(array_merge($validated, [
+            'ip_address' => request()->ip(),
+        ]));
 
         return $this->redirectRoute('articles.index', navigate: true);
     }

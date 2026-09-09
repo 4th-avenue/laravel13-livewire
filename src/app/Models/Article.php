@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['category_id', 'title', 'user_id', 'body'])]
+#[Fillable(['category_id', 'title', 'user_id', 'body', 'ip_address'])]
 class Article extends Model
 {
     use SoftDeletes;
