@@ -12,6 +12,7 @@ Route::view('dashboard', 'dashboard')
 Route::middleware('auth')->group(function () {
     Route::view('profile', 'profile')->name('profile');
     Route::livewire('articles/new', 'pages::articles.new')->name('articles.new');
+    Route::livewire('articles/{article:id}/edit', 'pages::articles.edit')->name('articles.edit');
 });
 
 Route::livewire('articles', 'pages::articles.list')
