@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Article;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 new class extends Component
@@ -15,11 +15,9 @@ new class extends Component
 
     public function deleteArticle()
     {
-        if (Auth::check()) {
-            $this->article->delete();
-        } else {
-            return $this->redirectRoute('login', navigate: true);
-        }
+        Gate::authorize('delete', $this->article);
+
+        $this->article->delete();
 
         return $this->redirectRoute('articles.index', navigate: true);
     }

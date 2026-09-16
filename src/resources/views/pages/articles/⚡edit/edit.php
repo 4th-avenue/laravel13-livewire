@@ -2,6 +2,7 @@
 
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -20,6 +21,8 @@ new class extends Component
 
     public function mount(Article $article)
     {
+        Gate::authorize('update', $this->article);
+
         $this->article = $article;
 
         $this->fill($this->article->only(['category_id', 'title', 'body']));
@@ -31,6 +34,8 @@ new class extends Component
 
     public function save()
     {
+        Gate::authorize('update', $this->article);
+
         $this->validate();
 
         $this->article->update(

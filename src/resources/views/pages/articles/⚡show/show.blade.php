@@ -18,14 +18,20 @@
                         <p>{{$article->body}}</p>
                     </div>
 
+                    @canany(['update', 'delete'], $article)
                     <div class="flex items-center justify-end mt-3 space-x-2">
+                        @can('update', $article)
                         <x-primary-button :href="route('articles.edit', $article)" wire:navigate>
                             {{ __('Edit') }}
                         </x-primary-button>
+                        @endcan
+                        @can('delete', $article)
                         <x-danger-button wire:click="deleteArticle" wire:confirm="정말로 이 글을 삭제하시겠습니까?">
                             {{ __('Delete') }}
                         </x-danger-button>
+                        @endcan
                     </div>
+                    @endcanany
                 </div>
             </div>
         </div>
