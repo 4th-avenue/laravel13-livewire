@@ -18,10 +18,13 @@
                         <p>{{$article->body}}</p>
                     </div>
 
-                    <div class="flex items-center justify-end mt-3">
+                    <div class="flex items-center justify-end mt-3 space-x-2">
                         <x-primary-button :href="route('articles.edit', $article)" wire:navigate>
                             {{ __('Edit') }}
                         </x-primary-button>
+                        <x-danger-button wire:click="deleteArticle" wire:confirm="정말로 이 글을 삭제하시겠습니까?">
+                            {{ __('Delete') }}
+                        </x-danger-button>
                     </div>
                 </div>
             </div>
