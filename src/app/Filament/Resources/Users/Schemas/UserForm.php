@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class UserForm
@@ -12,20 +13,28 @@ class UserForm
     {
         return $schema
             ->components([
-                TextInput::make('userid')
-                    ->required(),
-                TextInput::make('nickname')
-                    ->required(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
-                DateTimePicker::make('email_verified_at'),
-                TextInput::make('photo_path')
-                    ->default(null),
-                TextInput::make('password')
-                    ->password()
-                    ->required(),
+                Section::make('User')
+                    ->schema([
+                        TextInput::make('userid')
+                            ->required()
+                            ->unique(),
+                        TextInput::make('nickname')
+                            ->required()
+                            ->unique(),
+                        TextInput::make('email')
+                            ->label('Email address')
+                            ->email()
+                            ->required()
+                            ->unique(),
+                        DateTimePicker::make('email_verified_at'),
+                        TextInput::make('photo_path')
+                            ->default(null),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->dehydrated(fn (?string $state) => filled($state)),
+                    ])->columns(2)
+                    ->columnSpanFull()
             ]);
     }
 }
