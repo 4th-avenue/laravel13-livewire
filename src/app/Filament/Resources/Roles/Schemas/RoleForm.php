@@ -20,6 +20,7 @@ class RoleForm
                             ->required()
                             ->unique()
                     ])
+                    ->columnSpanFull()
             ]);
     }
 }

@@ -24,6 +24,7 @@ class CategoryForm
                         ->numeric()
                         ->default(null),
                 ])->columns(3)
+                ->columnSpanFull()
             ]);
     }
 }
