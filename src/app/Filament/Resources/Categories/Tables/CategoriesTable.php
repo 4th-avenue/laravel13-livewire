@@ -14,23 +14,22 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
+                TextColumn::make('id')
+                    ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('slug')
                     ->searchable(),
                 TextColumn::make('parent_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
+                    ->dateTime('Y-m-d H:i')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
+                    ->dateTime('Y-m-d H:i')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

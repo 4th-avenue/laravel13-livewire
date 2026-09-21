@@ -14,9 +14,14 @@ class PermissionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
-                TextColumn::make('name')
+                TextColumn::make('id')
+                    ->sortable(),
+                TextColumn::make('name'),
+                TextColumn::make('created_at')
+                    ->dateTime('Y-m-d H:i')
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
