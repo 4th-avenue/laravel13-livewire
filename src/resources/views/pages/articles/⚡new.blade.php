@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -17,6 +19,8 @@ new class extends Component
 
     public function mount()
     {
+        Gate::authorize('create', Article::class);
+
         $this->childCategories = Category::whereNotNull('parent_id')
             ->pluck('name', 'id')
             ->toArray();
@@ -24,6 +28,8 @@ new class extends Component
 
     public function save()
     {
+        Gate::authorize('create', Article::class);
+
         $validated = $this->validate();
 
         auth()->user()->articles()->create(array_merge($validated, [

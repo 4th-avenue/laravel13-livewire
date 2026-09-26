@@ -28,7 +28,7 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasPermissionTo('create article');
     }
 
     /**
@@ -36,7 +36,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id;
+        return $user->id === $article->user_id && $user->hasPermissionTo('update article');
     }
 
     /**
@@ -44,7 +44,7 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id;
+        return $user->id === $article->user_id && $user->hasPermissionTo('delete article');
     }
 
     /**
