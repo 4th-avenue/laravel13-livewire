@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Articles\Tables;
 
+use App\Exports\ArticlesExport;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -12,6 +14,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ArticlesTable
 {
@@ -55,6 +59,12 @@ class ArticlesTable
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
+                    BulkAction::make('export')
+                        ->label('Export to Excel')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->action(function(Collection $records){
+                            return Excel::download(new ArticlesExport($records), 'articles.csv', \Maatwebsite\Excel\Excel::CSV);
+                        }),
                 ]),
             ]);
     }
