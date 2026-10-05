@@ -26,18 +26,32 @@ class ListArticles extends ListRecords
                 ->schema([
                     FileUpload::make('attachment')
                         ->disk('public')
-                        ->directory('imports')
                         ->required(),
                 ])
                 ->action(function (array $data){
-                    $filePath = Storage::disk('public')->path($data['attachment']);
+                    $disk = Storage::disk('public');
+                    $relativePath = $data['attachment'];
 
-                    Excel::import(new ArticlesImport, $filePath);
+                    $filePath = $disk->path($relativePath);
 
-                    Notification::make()
-                        ->title('Articles Imported')
-                        ->success()
-                        ->send();
+                    try {
+                        Excel::import(new ArticlesImport, $filePath);
+
+                        Notification::make()
+                            ->title('Articles Imported')
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $e) {
+                        Notification::make()
+                            ->title('Import Failed')
+                            ->body('파일 처리 중 오류가 발생했습니다: ' . $e->getMessage())
+                            ->danger()
+                            ->send();
+                    } finally {
+                        if ($disk->exists($relativePath)) {
+                            $disk->delete($relativePath);
+                        }
+                    }
                 }),
         ];
     }
