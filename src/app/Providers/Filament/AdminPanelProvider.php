@@ -42,6 +42,11 @@ class AdminPanelProvider extends PanelProvider
                     'logout' => fn (Action $action): Action => $action,
                 ],
             ])
+            ->navigationGroups([
+                '사이트 관리',
+                '콘텐츠 관리',
+                'User와 역할・권한',
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
