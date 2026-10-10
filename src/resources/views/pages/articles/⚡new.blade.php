@@ -1,19 +1,14 @@
 <?php
 
+use App\Livewire\Forms\ArticleForm;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new class extends Component
 {
-    #[Validate('required|exists:categories,id')]
-    public $category_id;
-    #[Validate('required|string|max:60')]
-    public $title;
-    #[Validate('required|string|max:21844')]
-    public $body;
+    public ArticleForm $form;
 
     public $childCategories = [];
 
@@ -30,7 +25,7 @@ new class extends Component
     {
         Gate::authorize('create', Article::class);
 
-        $validated = $this->validate();
+        $validated = $this->form->validate();
 
         auth()->user()->articles()->create(array_merge($validated, [
             'ip_address' => request()->ip(),
@@ -56,29 +51,29 @@ new class extends Component
                         <!-- Category -->
                         <div>
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <x-select wire:model="category_id" id="category_id" class="block mt-1 w-full" name="category_id" required>
-                                <option>{{ __('Select a category.') }}</option>
+                            <x-select wire:model="form.category_id" id="category_id" class="block mt-1 w-full" name="category_id" required>
+                                <option value="">{{ __('Select a category.') }}</option>
                                 @foreach ($childCategories as $id => $name)
                                     <option value="{{ $id }}">
                                         {{ $name }}
                                     </option>
                                 @endforeach
                             </x-select>
-                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
                         </div>
 
                         <!-- Title -->
                         <div>
                             <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus autocomplete="off" />
-                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                            <x-text-input wire:model="form.title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus autocomplete="off" />
+                            <x-input-error :messages="$errors->get('form.title')" class="mt-2" />
                         </div>
 
                         <!-- Body -->
                         <div>
                             <x-input-label for="body" :value="__('Body')" />
-                            <x-textarea wire:model="body" id="body" rows="9" class="block mt-1 w-full" name="body" required autocomplete="off"></x-textarea>
-                            <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                            <x-textarea wire:model="form.body" id="body" rows="9" class="block mt-1 w-full" name="body" required autocomplete="off"></x-textarea>
+                            <x-input-error :messages="$errors->get('form.body')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end">

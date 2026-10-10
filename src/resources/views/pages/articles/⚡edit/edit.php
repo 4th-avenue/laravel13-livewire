@@ -1,21 +1,16 @@
 <?php
 
+use App\Livewire\Forms\ArticleForm;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new class extends Component
 {
     public Article $article;
 
-    #[Validate('required|exists:categories,id')]
-    public int $category_id;
-    #[Validate('required|string|max:60')]
-    public string $title;
-    #[Validate('required|string|max:21844')]
-    public string $body;
+    public ArticleForm $form;
 
     public $childCategories = [];
 
@@ -25,7 +20,7 @@ new class extends Component
 
         $this->article = $article;
 
-        $this->fill($this->article->only(['category_id', 'title', 'body']));
+        $this->form->fill($this->article->only(['category_id', 'title', 'body']));
 
         $this->childCategories = Category::whereNotNull('parent_id')
             ->pluck('name', 'id')
@@ -36,10 +31,10 @@ new class extends Component
     {
         Gate::authorize('update', $this->article);
 
-        $this->validate();
+        $this->form->validate();
 
         $this->article->update(
-            $this->only(['category_id', 'title', 'body'])
+            $this->form->only(['category_id', 'title', 'body'])
         );
 
         return $this->redirectRoute('articles.show', $this->article, navigate: true);

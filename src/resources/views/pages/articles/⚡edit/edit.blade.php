@@ -14,28 +14,28 @@
                         <!-- Category -->
                         <div>
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <x-select wire:model="category_id" id="category_id" class="block mt-1 w-full" name="category_id" required>
+                            <x-select wire:model="form.category_id" id="category_id" class="block mt-1 w-full" name="category_id" required>
                                 @foreach ($childCategories as $id => $name)
                                     <option value="{{ $id }}">
                                         {{ $name }}
                                     </option>
                                 @endforeach
                             </x-select>
-                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
                         </div>
 
                         <!-- Title -->
                         <div>
                             <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input wire:model="title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus autocomplete="off" />
-                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                            <x-text-input wire:model="form.title" id="title" class="block mt-1 w-full" type="text" name="title" required autofocus autocomplete="off" />
+                            <x-input-error :messages="$errors->get('form.title')" class="mt-2" />
                         </div>
 
                         <!-- Body -->
                         <div>
                             <x-input-label for="body" :value="__('Body')" />
-                            <x-textarea wire:model="body" id="body" rows="4" class="block mt-1 w-full" name="body" required autocomplete="off"></x-textarea>
-                            <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                            <x-textarea wire:model="form.body" id="body" rows="4" class="block mt-1 w-full" name="body" required autocomplete="off"></x-textarea>
+                            <x-input-error :messages="$errors->get('form.body')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end">
