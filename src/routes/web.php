@@ -10,7 +10,9 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::view('profile', 'profile')->name('profile');
+    Route::view('profile', 'profile')
+        ->middleware('password.confirm')
+        ->name('profile');
     Route::livewire('articles/new', 'pages::articles.new')->name('articles.new');
     Route::livewire('articles/{article:id}/edit', 'pages::articles.edit')->name('articles.edit');
 });
