@@ -40,6 +40,11 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasMany(Article::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasRole('admin');
