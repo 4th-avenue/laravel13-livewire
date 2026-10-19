@@ -1,10 +1,29 @@
 <?php
 
+use App\Models\Comment;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new class extends Component
 {
-    //
+    public $articleId;
+
+    #[Validate('required|string|min:3|max:2000')]
+    public $body;
+
+    public function save()
+    {
+        $this->validate();
+
+        Comment::create([
+            'article_id' => $this->articleId,
+            'user_id' => auth()->id(),
+            'body' => $this->body,
+            'ip_address' => request()->ip(),
+        ]);
+
+        $this->body = '';
+    }
 };
 ?>
 
