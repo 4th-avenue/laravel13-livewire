@@ -2,11 +2,18 @@
 
 use App\Models\Comment;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component
 {
     public $articleId;
+
+    #[On('comment-created')]
+    public function refreshComments()
+    {
+        //
+    }
 
     #[Computed]
     public function comments()

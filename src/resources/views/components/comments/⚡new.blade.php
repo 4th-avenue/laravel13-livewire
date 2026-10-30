@@ -23,6 +23,8 @@ new class extends Component
         ]);
 
         $this->body = '';
+
+        $this->dispatch('comment-created');
     }
 };
 ?>
