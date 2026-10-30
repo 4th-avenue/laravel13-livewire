@@ -39,6 +39,9 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- comment form -->
                     <livewire:comments.new :articleId="$article->id" />
+
+                    <!-- comment list -->
+                    <livewire:comments.list :articleId="$article->id" />
                 </div>
             </div>
         </div>
