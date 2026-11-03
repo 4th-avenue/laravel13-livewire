@@ -13,7 +13,7 @@
                     <div class="border rounded-md p-3">
                         <p>제목: {{$article->title}}</p>
                         <p>작성자: {{$article->user->nickname}}</p>
-                        <p>{{$article->created_at}}</p>
+                        <time datetime="{{ $article->created_at->toIso8601String() }}">{{ $article->created_at->locale('ko')->isoFormat('YYYY-MM-DD ddd H:mm') }}</time>
                         <hr class="my-3">
                         <p>{{$article->body}}</p>
                     </div>
