@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Comment;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -16,6 +17,8 @@ new class extends Component
 
     public function edit(Comment $comment): void
     {
+        Gate::authorize('update', $comment);
+
         $this->editingId = $comment->id;
         $this->body = $comment->body;
     }
@@ -31,6 +34,8 @@ new class extends Component
     {
         $comment = Comment::findOrFail($this->editingId);
 
+        Gate::authorize('update', $comment);
+
         $this->validate();
 
         $comment->update([
@@ -42,6 +47,8 @@ new class extends Component
 
     public function delete(Comment $comment): void
     {
+        Gate::authorize('delete', $comment);
+
         $comment->delete();
     }
 
@@ -80,6 +87,7 @@ new class extends Component
                             <span>{{ $comment->user->nickname }}</span>
                             <time datetime="{{ $comment->created_at->toIso8601String() }}" class="ml-2 text-sm">{{ $comment->created_at->format('Y-m-d H:i') }}</time>
                         </div>
+                        @canany(['update', 'delete'], $comment)
                         <x-dropdown placement="left-start">
                             <x-slot name="trigger">
                                 <button>
@@ -89,6 +97,7 @@ new class extends Component
                                 </button>
                             </x-slot>
                             <x-slot name="content">
+                                @can('update', $comment)
                                 <button @click.prevent="
                                     if ($wire.editingId && $wire.editingId !== {{ $comment->id }}) {
                                         if (!confirm('작성 중이던 수정 내용이 사라집니다. 다른 댓글을 수정하시겠습니까?')) {
@@ -99,13 +108,17 @@ new class extends Component
                                 " class="block w-full px-4 py-2 text-left text-sm leading-5 hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">
                                     {{ __('Edit') }}
                                 </button>
+                                @endcan
+                                @can('delete', $comment)
                                 <button wire:click="delete({{ $comment->id }})" wire:confirm="이 댓글을 삭제하시겠습니까?" class="w-full text-start">
                                     <x-dropdown-link>
                                         {{ __('Delete') }}
                                     </x-dropdown-link>
                                 </button>
+                                @endcan
                             </x-slot>
                         </x-dropdown>
+                        @endcanany
                     </div>
                     <p class="mt-4">{!! nl2br(e($comment->body)) !!}</p>
                 </div>
