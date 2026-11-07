@@ -40,6 +40,11 @@ new class extends Component
         $this->cancelEdit();
     }
 
+    public function delete(Comment $comment): void
+    {
+        $comment->delete();
+    }
+
     #[On('comment-created')]
     public function refreshComments()
     {
@@ -78,8 +83,8 @@ new class extends Component
                         <x-dropdown placement="left-start">
                             <x-slot name="trigger">
                                 <button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-600">
+                                        <path d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                     </svg>
                                 </button>
                             </x-slot>
@@ -93,6 +98,11 @@ new class extends Component
                                     $wire.edit({{ $comment->id }})
                                 " class="block w-full px-4 py-2 text-left text-sm leading-5 hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">
                                     {{ __('Edit') }}
+                                </button>
+                                <button wire:click="delete({{ $comment->id }})" wire:confirm="이 댓글을 삭제하시겠습니까?" class="w-full text-start">
+                                    <x-dropdown-link>
+                                        {{ __('Delete') }}
+                                    </x-dropdown-link>
                                 </button>
                             </x-slot>
                         </x-dropdown>
