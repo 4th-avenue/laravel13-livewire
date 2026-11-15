@@ -27,6 +27,7 @@ class ArticlesTable
                     ->sortable(),
                 TextColumn::make('category.name'),
                 TextColumn::make('title')
+                    ->limit(50)
                     ->searchable(),
                 TextColumn::make('user.userid'),
                 TextColumn::make('view_count')

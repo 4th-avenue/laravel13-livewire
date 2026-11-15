@@ -22,6 +22,7 @@ class CommentsTable
                 TextColumn::make('id')
                     ->sortable(),
                 TextColumn::make('article.title')
+                    ->limit(30)
                     ->searchable(),
                 TextColumn::make('user.userid')
                     ->searchable(),
@@ -32,6 +33,8 @@ class CommentsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('body')
+                    ->limit(30)
+                    ->tooltip(fn ($record) => $record->body)
                     ->searchable(),
                 TextColumn::make('ip_address')
                     ->searchable()
