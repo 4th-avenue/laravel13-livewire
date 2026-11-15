@@ -25,7 +25,8 @@ class CommentForm
                     ->numeric()
                     ->default(null),
                 TextInput::make('body')
-                    ->required(),
+                    ->required()
+                    ->maxLength(2000),
                 TextInput::make('ip_address')
                     ->default(null),
             ]);
