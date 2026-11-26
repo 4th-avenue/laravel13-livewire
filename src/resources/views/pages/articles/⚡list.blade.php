@@ -14,6 +14,7 @@ new class extends Component
     {
         $articles = Article::with('user:id,nickname')
             ->select('id', 'title', 'user_id', 'created_at')
+            ->withCount('comments')
             ->latest()
             ->paginate(3);
 
@@ -47,7 +48,11 @@ new class extends Component
 
                     @foreach($this->articles as $article)
                         <div class="border rounded-md my-3 p-3">
-                            <p>제목: <a href="{{ route('articles.show', $article) }}" wire:navigate class="text-indigo-500 hover:text-indigo-700">{{$article->title}}</a></p>
+                            <p>제목: <a href="{{ route('articles.show', $article) }}" wire:navigate class="text-indigo-500 hover:text-indigo-700">{{$article->title}}</a>
+                                @if ($article->comments_count)
+                                [{{ $article->comments_count }}]
+                                @endif
+                            </p>
                             <p>작성자: {{$article->user->nickname}}</p>
                             <p>{{$article->created_at}}</p>
                         </div>
