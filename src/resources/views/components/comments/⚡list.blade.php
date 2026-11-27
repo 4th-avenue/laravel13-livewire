@@ -127,7 +127,7 @@ new class extends Component
                             </x-dropdown>
                             @endcanany
                         </div>
-                        <p class="mt-4">{!! nl2br(e($comment->body)) !!}</p>
+                        <p class="mt-4 break-all">{!! nl2br(e($comment->body)) !!}</p>
                     </div>
                 </div>
 
