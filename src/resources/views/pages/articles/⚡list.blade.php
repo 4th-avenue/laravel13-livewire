@@ -13,7 +13,7 @@ new class extends Component
     public function articles()
     {
         $articles = Article::with('user:id,nickname')
-            ->select('id', 'title', 'user_id', 'created_at')
+            ->select('id', 'title', 'user_id', 'view_count', 'created_at')
             ->withCount('comments')
             ->latest()
             ->paginate(3);
@@ -54,6 +54,7 @@ new class extends Component
                                 @endif
                             </p>
                             <p>작성자: {{$article->user->nickname}}</p>
+                            <p>조회수: {{$article->view_count}}</p>
                             <p>{{$article->created_at}}</p>
                         </div>
                     @endforeach

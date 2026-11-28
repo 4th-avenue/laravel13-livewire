@@ -11,6 +11,13 @@ new class extends Component
     public function mount(Article $article)
     {
         $this->article = $article->load('user:id,nickname');
+
+        $sessionKey = 'article.' . $article->id;
+
+        if (! session($sessionKey)) {
+            $this->article->increment('view_count');
+            session([$sessionKey => true]);
+        }
     }
 
     public function deleteArticle()
